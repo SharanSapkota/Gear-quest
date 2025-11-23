@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { seedCategories } = require('./category.seed');
 
 async function main() {
   console.log('Seeding...');
@@ -42,6 +43,7 @@ async function main() {
     const hashed = await bcrypt.hash('password', 12);
     const adminRole = await prisma.role.findUnique({ where: { code: 'ADMIN' } });
     const ownerType = await prisma.userType.findUnique({ where: { name: 'OWNER' } });
+
     
     const user = await prisma.user.create({ 
       data: { 
@@ -70,6 +72,7 @@ async function main() {
     
     console.log('Created admin user: admin@example.com / password');
   }
+  await seedCategories();
 
   console.log('Seeding finished');
 }
