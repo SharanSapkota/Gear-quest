@@ -12,3 +12,9 @@ export async function create(req: Request, res: Response) {
   const item = await logService.createLog(data);
   res.status(201).json(item);
 }
+
+export async function deleteLog(req: Request, res: Response) {
+  const id = Number(req.params.id);
+  const item = await logService.deleteLogByUser(id);
+  res.json(item);
+}
