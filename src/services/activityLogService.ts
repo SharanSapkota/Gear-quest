@@ -7,3 +7,7 @@ export function listLogs(userId: number) {
 export function createLog(data: any) {
   return repo.createLog(data);
 }
+
+export function deleteLogByUser(userId: number) {
+  return 
+}
