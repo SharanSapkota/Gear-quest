@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import * as revRepo from '../repositories/reviewRepository';
 
 export async function listByProduct(req: Request, res: Response) {
-  const productId = Number(req.params.productId);
-  const items = await revRepo.findReviewsByProduct(productId);
+  const userId = Number(req.params.userId);
+  const items = await revRepo.findReviewsByUser(userId);
   res.json(items);
 }
 
