@@ -45,9 +45,9 @@ export async function refresh(req: Request, res: Response) {
 
     const { id, token } = parsed;
 
-    if (!id || !token) {
-      return sendFailure(res, "Invalid refresh token", 401);
-    }
+    // if (!id || !token) {
+    //   return sendFailure(res, "Invalid refresh token", 401);
+    // }
 
     const { accessToken, newCookieData, cookieOptions } =
       await authService.processRefresh(id, token);
@@ -193,6 +193,14 @@ export async function resendVerification(req: Request, res: Response) {
     const { email } = req.body;
     if (!email) {
       return sendFailure(res, 'Email is required', 400);
+    }
+
+    const user = await userRepo.findUserByEmail(email);
+    if (!user) {
+      return sendFailure(res, 'No account found for that email', 404);
+    }
+    if (user.isEmailVerified) {
+      return sendSuccess(res, { success: true, message: 'Email already verified' }, 200);
     }
 
     const result = await authService.resendVerification(email);
