@@ -1,7 +1,7 @@
 import prisma from '../prisma';
 
-export function findReviewsByProduct(productId: number) {
-  return prisma.review.findMany({ where: { productId } });
+export function findReviewsByUser(userId: number) {
+  return prisma.review.findMany({ where: { revieweeId: userId } });
 }
 
 export function createReview(data: any) {
