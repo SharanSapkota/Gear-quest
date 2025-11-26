@@ -1,13 +1,13 @@
 import prisma from '../prisma';
 
 export function findAssignedByOwner(ownerId: number) {
-  return prisma.productAssigned.findMany({ where: { ownerId } });
+  return 
 }
 
 export function createProductAssigned(data: any) {
-  return prisma.productAssigned.create({ data });
+  return 
 }
 
 export function updateProductAssigned(id: number, data: any) {
-  return prisma.productAssigned.update({ where: { id }, data });
+  return
 }
