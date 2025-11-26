@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import validator from 'validator';
+import { sendFailure } from './response';
 
 export interface ValidationError {
   field: string;
@@ -28,12 +29,13 @@ export function validateSignup(req: Request, res: Response, next: NextFunction) 
   } else if (lastName.length > 50) {
     errors.push({ field: 'lastName', message: 'Last name must be less than 50 characters' });
   }
-
+  console.log('------', phone)
+  console.log('------', phone.length)
   // Password validation
   if (!password) {
     errors.push({ field: 'password', message: 'Password is required' });
-  } else if (password.length < 10) {
-    errors.push({ field: 'password', message: 'Password must be at least 10 characters long' });
+  } else if (password.length < 6) {
+    errors.push({ field: 'password', message: 'Password must be at least 6 characters long' });
   } else if (password.length > 128) {
     errors.push({ field: 'password', message: 'Password must be less than 128 characters' });
   } 
@@ -70,11 +72,7 @@ export function validateSignup(req: Request, res: Response, next: NextFunction) 
   }
 
   if (errors.length > 0) {
-    return res.status(400).json({
-      success: false,
-      error: 'Validation failed',
-      details: errors
-    });
+    return sendFailure(res, { error: errors[0]?.message }, 400);
   }
 
   next();
