@@ -123,5 +123,5 @@ export async function updateUserPaymentMode(id: string, data: { isVerified: bool
 }
 
 export async function findUserById(id: number) {
-  return prisma.user.findUnique({ where: { id }, include: { userRoles: { include: { role: true } }, paymentModes: true, emails: true, phones: true, details: true, bikes: true, bookings: true, ownerBookings: true, reviewsGiven: true, reviewsReceived: true, locations: true, productAssigned: true } });
+  return prisma.user.findUnique({ where: { id }, include: { userRoles: { include: { role: true } }, paymentModes: true, emails: true, phones: true, details: true, bikes: true, bookings: true, ownerBookings: true, reviewsGiven: true, reviewsReceived: true, locations: true } });
 }
