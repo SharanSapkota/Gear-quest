@@ -8,7 +8,7 @@ export async function list(req: Request, res: Response) {
 
 export async function get(req: Request, res: Response) {
   const id = Number(req.params.id);
-  const item = await prodService.getProduct(id);
+  const item: any= await prodService.getProduct(id);
   if (!item) return res.status(404).json({ error: 'not found' });
   res.json(item);
 }
