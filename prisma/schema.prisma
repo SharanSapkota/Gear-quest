@@ -45,8 +45,6 @@ model User {
   reviewsGiven                Review[]             @relation("reviewer")
   reviewsReceived             Review[]             @relation("reviewee")
   locations                   Location[]
-  productAssigned             ProductAssigned[]    @relation("ownerAssigned")
-  assignedProducts            ProductAssigned[]    @relation("assignedToAssigned")
   rentalOwner                 Rental[]             @relation("rentalOwner")
   rentalRenter                Rental[]             @relation("rentalRenter")
   paymentTransactionsPayer    PaymentTransaction[] @relation("payer")
@@ -57,7 +55,6 @@ model User {
   userTypeId                  Int?
   UserSecurity                UserSecurity?
   paymentModes                UserPaymentMode[]
-  Product                     Product[]
   ActivityLog                 ActivityLog[]
   emailVerifications          EmailVerification[]
   passwordResets              PasswordReset[]
@@ -84,10 +81,25 @@ model RefreshToken {
 }
 
 model Category {
-  id      Int       @id @default(autoincrement())
-  name    String    @unique()
-  bikes   Bike[]
-  Product Product[]
+  id            Int           @id @default(autoincrement())
+  name          String        @default("name")
+  subcategories Subcategory[]
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  description   String?
+}
+
+model Subcategory {
+  id          Int           @id @default(autoincrement())
+  name        String        @default("name")
+  bikes       Bike[]
+  parentId    Int?
+  categoryId  Int
+  category    Category      @relation(fields: [categoryId], references: [id])
+  parent      Subcategory?  @relation("SubcategoryHierarchy", fields: [parentId], references: [id])
+  children    Subcategory[] @relation("SubcategoryHierarchy")
+  isActive    Boolean       @default(true)
+  description String?
 }
 
 model Bike {
@@ -103,8 +115,8 @@ model Bike {
   status      BikeStatus @default(AVAILABLE)
   startTime   DateTime?
   endTime     DateTime?
-  category    Category?  @relation(fields: [categoryId], references: [id])
-  categoryId  Int?
+  subcategory Subcategory?  @relation(fields: [subcategoryId], references: [id])
+  subcategoryId  Int?
   owner       User       @relation(fields: [ownerId], references: [id])
   ownerId     Int
   isActive    Boolean    @default(true)
@@ -347,32 +359,6 @@ model ProductPrice {
   currency        String
   discountPercent Int?
   offerStatus     String?
-  Product         Product[]
-}
-
-model Product {
-  id                 Int                  @id @default(autoincrement())
-  name               String
-  category           Category?            @relation(fields: [categoryId], references: [id])
-  categoryId         Int?
-  isActive           Boolean              @default(true)
-  boughtYear         String?
-  condition          String?
-  owner              User                 @relation(fields: [ownerId], references: [id])
-  ownerId            Int
-  status             String?
-  latitude           Decimal?             @db.Decimal(10, 8)
-  longitude          Decimal?             @db.Decimal(11, 8)
-  hourlyRate         Decimal?             @db.Decimal(10, 2)
-  dailyRate          Decimal?             @db.Decimal(10, 2)
-  isAvailable        Boolean              @default(true)
-  productPrice       ProductPrice?        @relation(fields: [productPriceId], references: [id])
-  productPriceId     Int?
-  reviews            Review[]
-  images             ProductImage[]
-  Rental             Rental[]
-  PaymentTransaction PaymentTransaction[]
-  ProductAssigned    ProductAssigned[]
 }
 
 model Review {
@@ -381,8 +367,6 @@ model Review {
   reviewerId Int
   reviewee   User     @relation("reviewee", fields: [revieweeId], references: [id])
   revieweeId Int
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
   rating     Int
   comment    String?
   createdAt  DateTime @default(now())
@@ -416,8 +400,6 @@ model Rental {
   ownerId              Int
   renter               User                @relation("rentalRenter", fields: [renterId], references: [id])
   renterId             Int
-  product              Product             @relation(fields: [productId], references: [id])
-  productId            Int
   startTime            DateTime?
   endTime              DateTime?
   totalPrice           Decimal?            @db.Decimal(10, 2)
@@ -428,23 +410,12 @@ model Rental {
   updatedAt            DateTime            @updatedAt
 }
 
-model ProductImage {
-  id         Int      @id @default(autoincrement())
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
-  imageUrl   String
-  isPrimary  Boolean  @default(false)
-  uploadedAt DateTime @default(now())
-}
-
 model PaymentTransaction {
   id                   Int           @id @default(autoincrement())
   payer                User          @relation("payer", fields: [payerId], references: [id])
   payerId              Int
   receiver             User          @relation("receiver", fields: [receiverId], references: [id])
   receiverId           Int
-  product              Product       @relation(fields: [productId], references: [id])
-  productId            Int
   amount               Decimal       @db.Decimal(10, 2)
   currency             String
   paymentMethod        PaymentMethod @relation(fields: [paymentMethodId], references: [id])
@@ -457,15 +428,3 @@ model PaymentTransaction {
   booking              Booking?      @relation("BookingPayment")
 }
 
-model ProductAssigned {
-  id            Int     @id @default(autoincrement())
-  owner         User    @relation("ownerAssigned", fields: [ownerId], references: [id])
-  ownerId       Int
-  assignedTo    User    @relation("assignedToAssigned", fields: [assignedToId], references: [id])
-  assignedToId  Int
-  product       Product @relation(fields: [productId], references: [id])
-  productId     Int
-  paymentStatus String?
-  status        String?
-  paymentMethod Int?
-}
