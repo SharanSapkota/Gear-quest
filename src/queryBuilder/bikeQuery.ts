@@ -33,7 +33,7 @@ export class BikeQueryBuilder {
         const include: any = {
             bikeImages: true,
             bikeAddress: true,
-            category: true,
+            // category: true,
             owner: {
                 select: {
                     id: true,
