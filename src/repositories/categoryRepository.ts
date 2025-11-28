@@ -1,7 +1,11 @@
 import prisma from '../prisma';
 
 export function findAllCategories() {
-  return prisma.category.findMany();
+  return prisma.category.findMany({
+    include: {
+      subcategories: true,
+    },
+  });
 }
 
 export function findCategoryById(id: number) {
