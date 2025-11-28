@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import * as catRepo from '../repositories/categoryRepository';
+import { sendSuccess } from '../utils/response';
 
 export async function list(req: Request, res: Response) {
   const items = await catRepo.findAllCategories();
-  res.json(items);
+  return sendSuccess(res, items, 200);
 }
 
 export async function create(req: Request, res: Response) {
   const item = await catRepo.createCategory(req.body);
-  res.status(201).json(item);
+  return sendSuccess(res, item, 201);
 }
