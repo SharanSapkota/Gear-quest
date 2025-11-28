@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function main() {
+const seedCategories = async () => {
   console.log('Seeding Categories and Subcategories...');
 
   const categories = [
@@ -75,31 +75,46 @@ async function main() {
     },
   ];
 
-  // Seed categories and subcategories
   for (const cat of categories) {
-    await prisma.category.create({
-      data: {
-        isActive: cat.isActive,
-        description: cat.description,
-        subcategories: {
-          create: cat.subcategories.map((sub) => ({
+    // Check if category already exists
+    let category = await prisma.category.findFirst({ where: { name: cat.name } });
+    if (!category) {
+      category = await prisma.category.create({
+        data: {
+          name: cat.name,
+          description: cat.description,
+          isActive: cat.isActive,
+        },
+      });
+    }
+    // Seed subcategories
+    for (const sub of cat.subcategories) {
+      const subExists = await prisma.subcategory.findFirst({ where: { name: sub.name } });
+      if (!subExists) {
+        await prisma.subcategory.create({
+          data: {
             name: sub.name,
             description: sub.description,
             isActive: sub.isActive ?? true,
-          })),
-        },
-      },
-    });
+            categoryId: category.id,
+          },
+        });
+      }
+    }
   }
 
   console.log("Categories and Subcategories seeded successfully!");
+};
+
+if (require.main === module) {
+  seedCategories()
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+module.exports = { seedCategories };
