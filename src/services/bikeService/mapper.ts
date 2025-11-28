@@ -10,7 +10,7 @@ export const bikeCreateDto = (bike: any) => {
     autoAccept: Boolean(bike.autoAccept )?? false,
     endTime: bike.endTime ?? null,
     ownerId: bike.ownerId,
-    categoryId: bike.categoryId ?? null,
+    subCategoryId: bike.subCategoryId ?? null,
   };
 };
 
