@@ -79,17 +79,9 @@ export class BikeService {
     try {
       const result = await prisma.$transaction(
         async (transaction: any) => {
-          let categoryId = payload.categoryId ?? null;
-          if (!categoryId && payload.categoryName) {
-            const category = await prisma.category.upsert({
-              where: { name: payload.categoryName },
-              update: {},
-              create: { name: payload.categoryName },
-            });
-            categoryId = category.id;
-          }
+          let subCategoryId = payload.subcategoryId ?? null;
 
-          const bikeMapper = bikeCreateDto({ ...payload, categoryId });
+          const bikeMapper = bikeCreateDto({ ...payload, subCategoryId });
           const createdBike = await this.repo.createBike(bikeMapper, transaction);
 
           const addressMapper = bikeAddressCreateDto(payload, createdBike.id);
@@ -126,15 +118,6 @@ export class BikeService {
         : bike.rentAmount;
 
     let categoryId = bike.categoryId;
-    if (payload.categoryName) {
-      const category = await prisma.category.upsert({
-        where: { name: payload.categoryName },
-        update: {},
-        create: { name: payload.categoryName },
-      });
-      categoryId = category.id;
-    }
-
     const keepImages = Array.isArray(payload.existingImages)
       ? payload.existingImages
       : bike.bikeImages.map((img: any) => img.imageUrl);
