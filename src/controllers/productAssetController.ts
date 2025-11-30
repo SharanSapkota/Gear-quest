@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import * as assetService from '../services/productAssetService';
+import { sendSuccess } from '../utils/response';
 
 export async function listImages(req: Request, res: Response) {
   const productId = Number(req.params.productId);
   const items = await assetService.listImages(productId);
-  res.json(items);
+  return sendSuccess(res, items, 200);
 }
 
 export async function createImage(req: Request, res: Response) {
