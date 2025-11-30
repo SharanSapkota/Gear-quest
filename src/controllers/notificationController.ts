@@ -18,5 +18,5 @@ export async function count(req: Request, res: Response) {
 export async function markRead(req: Request, res: Response) {
   const id = Number(req.params.id);
   const updated = await notifService.markNotificationRead(id);
-  res.json(updated);
+  return sendSuccess(res, updated, 200);
 }
