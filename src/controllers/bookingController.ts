@@ -7,7 +7,7 @@ import { bikePresenter } from '../presentation/bike';
 
 export async function list(req: Request, res: Response) {
   const bookings = await bookingService.listBookings();
-  res.json(bookings);
+  return sendSuccess(res, bookings, 200);
 }
 
 export async function listMyBookings(req: Request, res: Response) {
@@ -37,7 +37,7 @@ export async function rejectBooking(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
     const rejected = await bookingService.rejectBooking(id, req.user);
-    sendSuccess(res, rejected);
+    return sendSuccess(res, rejected, 200);
   } catch (err: any) {
     if (err.message === ERROR_MESSAGES.NOT_FOUND) return sendFailure(res, { error: ERROR_MESSAGES.NOT_FOUND }, 404);
     if (err.message === ERROR_MESSAGES.FORBIDDEN) return sendFailure(res, { error: ERROR_MESSAGES.FORBIDDEN }, 403);
