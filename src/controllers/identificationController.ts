@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import * as idService from '../services/identificationService';
+import { sendSuccess } from '../utils/response';
 
 export async function listServices(req: Request, res: Response) {
   const items = await idService.listServices();
-  res.json(items);
+  return sendSuccess(res, items, 200);
 }
 
 export async function createService(req: Request, res: Response) {
