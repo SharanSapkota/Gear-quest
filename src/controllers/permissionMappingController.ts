@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import * as mappingService from '../services/permissionMappingService';
+import { sendSuccess } from '../utils/response';
 
 export async function listUserPermissions(req: Request, res: Response) {
   const items = await mappingService.listUserPermissions();
-  res.json(items);
+  return sendSuccess(res, items, 200);
 }
 
 export async function createUserPermission(req: Request, res: Response) {
