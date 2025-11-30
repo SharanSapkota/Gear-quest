@@ -45,10 +45,6 @@ export async function refresh(req: Request, res: Response) {
 
     const { id, token } = parsed;
 
-    // if (!id || !token) {
-    //   return sendFailure(res, "Invalid refresh token", 401);
-    // }
-
     const { accessToken, newCookieData, cookieOptions } =
       await authService.processRefresh(id, token);
 
