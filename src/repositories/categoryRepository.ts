@@ -2,8 +2,11 @@ import prisma from '../prisma';
 
 export function findAllCategories() {
   return prisma.category.findMany({
+    where: { isActive: true },
     include: {
-      subcategories: true,
+      subcategories: {
+        where: { isActive: true },
+      },
     },
   });
 }
