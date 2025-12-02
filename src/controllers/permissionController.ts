@@ -22,7 +22,8 @@ export async function create(req: Request, res: Response) {
 export async function update(req: Request, res: Response) {
   const id = Number(req.params.id);
   const updated = await permService.updatePermission(id, req.body);
-  res.json(updated);
+
+  return sendSuccess(res, updated, 200)
 }
 
 export async function remove(req: Request, res: Response) {
