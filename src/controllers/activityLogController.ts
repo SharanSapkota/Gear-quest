@@ -17,5 +17,5 @@ export async function create(req: Request, res: Response) {
 export async function deleteLog(req: Request, res: Response) {
   const id = Number(req.params.id);
   const item = await logService.deleteLogByUser(id);
-  res.json(item);
+  return sendSuccess(res, item, 200)
 }
