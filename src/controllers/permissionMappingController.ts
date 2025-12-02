@@ -14,7 +14,8 @@ export async function createUserPermission(req: Request, res: Response) {
 
 export async function listRolePermissions(req: Request, res: Response) {
   const items = await mappingService.listRolePermissions();
-  res.json(items);
+  
+  return sendSuccess(res, items, 200)
 }
 
 export async function createRolePermission(req: Request, res: Response) {
