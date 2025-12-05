@@ -9,7 +9,8 @@ export async function listServices(req: Request, res: Response) {
 
 export async function createService(req: Request, res: Response) {
   const item = await idService.createService(req.body);
-  res.status(201).json(item);
+
+  return sendSuccess(res, item, 200)
 }
 
 export async function createIdentity(req: Request, res: Response) {
