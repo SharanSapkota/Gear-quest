@@ -9,7 +9,8 @@ export async function listUserPermissions(req: Request, res: Response) {
 
 export async function createUserPermission(req: Request, res: Response) {
   const item = await mappingService.createUserPermission(req.body);
-  res.status(201).json(item);
+
+  return sendSuccess(res, item, 200)
 }
 
 export async function listRolePermissions(req: Request, res: Response) {
