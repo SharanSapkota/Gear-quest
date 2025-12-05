@@ -9,7 +9,6 @@ type RelationConfig = {
   
     constructor(private id?: number) {}
   
-    // Generic method to add any relation
     addRelation(name: string, options?: { where?: Record<string, any>, select?: Record<string, any> }) {
       this.relations.push({
         name,
