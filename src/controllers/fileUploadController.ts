@@ -13,7 +13,7 @@ export const getPreSignedUploadUrl = async (req: Request, res: Response) => {
       fileType as string
     );
 
-    sendSuccess(res, uploadUrlData, 200);
+    return sendSuccess(res, uploadUrlData, 200);
   } catch (error) {
     console.error('Error generating pre-signed URL:', error);
     res.status(500).json({ error: 'Failed to generate pre-signed URL' });
