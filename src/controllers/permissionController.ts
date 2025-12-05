@@ -4,6 +4,7 @@ import { sendSuccess } from '../utils/response';
 
 export async function list(req: Request, res: Response) {
   const items = await permService.listPermissions();
+
   return sendSuccess(res, items, 200);
 }
 
@@ -11,7 +12,8 @@ export async function get(req: Request, res: Response) {
   const id = Number(req.params.id);
   const item = await permService.getPermission(id);
   if (!item) return res.status(404).json({ error: 'not found' });
-  res.json(item);
+
+  return sendSuccess(res, item, 200)
 }
 
 export async function create(req: Request, res: Response) {
