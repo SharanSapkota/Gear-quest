@@ -14,7 +14,8 @@ export async function list(req: Request, res: Response) {
   const presentableBikes = bikes.map((bike: any) => {
     return bikePresenter(bike);
   });
-  sendSuccess(res, presentableBikes, 200);
+  
+  return sendSuccess(res, presentableBikes, 200);
 }
 
 export async function listByAddress(req: Request, res: Response) {
