@@ -10,6 +10,7 @@ export async function createPaymentTransaction(req: Request, res: Response) {
   try {
 
     const item = await paymentService.createPaymentTransaction(req.body);
+    
     return sendSuccess(res, item, 201);
   } catch (err: any) {
     return sendFailure(res, {error: err.message || ERROR_MESSAGES.INTERNAL_ERROR}, 500);
