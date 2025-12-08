@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import * as roleService from '../services/roleService';
+import { sendSuccess } from '../utils/response';
 
 export async function list(req: Request, res: Response) {
   const roles = await roleService.listRoles();
-  res.json(roles);
+  return sendSuccess(res, roles, 200);
 }
 
 export async function get(req: Request, res: Response) {
