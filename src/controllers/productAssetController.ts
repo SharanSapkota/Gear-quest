@@ -11,7 +11,7 @@ export async function listImages(req: Request, res: Response) {
 export async function createImage(req: Request, res: Response) {
   const data = { ...(req.body || {}) };
   const item = await assetService.createImage(data);
-  res.status(201).json(item);
+  return sendSuccess(res, item, 201);
 }
 
 export async function createPrice(req: Request, res: Response) {
