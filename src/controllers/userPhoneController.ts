@@ -1,16 +1,18 @@
 import { Request, Response } from 'express';
 import * as phoneService from '../services/userPhoneService';
+import { sendSuccess } from '../utils/response';
 
 export async function list(req: Request, res: Response) {
   const userId = Number(req.params.userId || (req as any).user?.id);
   const items = await phoneService.listPhones(userId);
-  res.json(items);
+
+  return sendSuccess(res, items, 200);
 }
 
 export async function create(req: Request, res: Response) {
   const data = { ...(req.body || {}), userId: Number(req.params.userId || (req as any).user?.id) };
   const item = await phoneService.createPhone(data);
-  res.status(201).json(item);
+  return sendSuccess(res, item, 201);
 }
 
 export async function update(req: Request, res: Response) {
