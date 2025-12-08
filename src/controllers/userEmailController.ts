@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import * as emailService from '../services/userEmailService';
+import { sendSuccess } from '../utils/response';
 
 export async function list(req: Request, res: Response) {
   const userId = Number(req.params.userId || (req as any).user?.id);
   const items = await emailService.listEmails(userId);
-  res.json(items);
+  
+  return sendSuccess(res, items, 200);
 }
 
 export async function create(req: Request, res: Response) {
