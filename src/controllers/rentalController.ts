@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import * as rentService from '../services/rentalService';
+import { sendSuccess } from '../utils/response';
 
 export async function list(req: Request, res: Response) {
   const items = await rentService.listRentals();
-  res.json(items);
+  return sendSuccess(res, items, 200);
 }
 
 export async function get(req: Request, res: Response) {
