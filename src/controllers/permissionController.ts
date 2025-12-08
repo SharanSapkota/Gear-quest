@@ -12,8 +12,7 @@ export async function get(req: Request, res: Response) {
   const id = Number(req.params.id);
   const item = await permService.getPermission(id);
   if (!item) return res.status(404).json({ error: 'not found' });
-
-  return sendSuccess(res, item, 200)
+  return sendSuccess(res, item, 200);
 }
 
 export async function create(req: Request, res: Response) {
