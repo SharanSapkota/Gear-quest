@@ -5,7 +5,7 @@ import { sendSuccess } from '../utils/response';
 export async function list(req: Request, res: Response) {
   const userId = req.user.id;
   const items = await notifService.listNotifications(userId);
-  res.json(items);
+  return sendSuccess(res, items, 200);
 }
 
 export async function count(req: Request, res: Response) {
