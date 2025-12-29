@@ -28,11 +28,12 @@ export class BikeQueryBuilder {
 
         return { where: { bikeAddress: bikeAddressQuery } };
     }
-
+  
     listBike(_includes: any) {
         const include: any = {
             bikeImages: true,
             bikeAddress: true,
+            // subcategory: true,
             // category: true,
             owner: {
                 select: {
