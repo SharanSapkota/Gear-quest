@@ -123,6 +123,8 @@ export async function logout(req: Request, res: Response) {
 
 export async function loginV2(req: Request, res: Response) {
   try {
+    const allUsers = await userRepo.findAllUsers();
+    console.log('allUsers', allUsers);
     const result = await authService.loginV2(req.body);
     console.log('result', result);
     res.cookie(
