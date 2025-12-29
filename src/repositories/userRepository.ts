@@ -6,6 +6,10 @@ export async function findUserByEmail(email: string) {
   return userList;
 }
 
+export async function findAllUsers() {
+  return prisma.user.findMany({ include: { userRoles: { include: { role: true } }, emails: true } });
+}
+
 export async function findRefreshTokenById(id: string) {
   return prisma.refreshToken.findUnique({ where: { id } });
 }
