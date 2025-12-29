@@ -82,7 +82,7 @@ export class BikeService {
           let categoryId = payload.categoryId ?? null;
           if (!categoryId && payload.categoryName) {
             const category = await prisma.category.upsert({
-              where: { name: payload.categoryName },
+              where: { id: payload.categoryId },
               update: {},
               create: { name: payload.categoryName },
             });
@@ -128,7 +128,7 @@ export class BikeService {
     let categoryId = bike.categoryId;
     if (payload.categoryName) {
       const category = await prisma.category.upsert({
-        where: { name: payload.categoryName },
+        where: { id: payload.categoryId },
         update: {},
         create: { name: payload.categoryName },
       });
