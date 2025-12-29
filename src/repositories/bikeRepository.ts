@@ -18,7 +18,8 @@ export class BikeRepository {
           include: {
             bikeImages: true,
             bikeAddress: true,
-            category: true,
+            // category: true,
+            subcategory: true,
             owner: {
               select: {
                 id: true,
