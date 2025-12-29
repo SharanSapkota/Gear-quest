@@ -22,8 +22,15 @@ export class BikeService {
 
   async listBikes(query: any) {
     const queryBuilder = new BikeQueryBuilder(query)
-    const listBikeQuery = queryBuilder.listBike({bikeAdress: true, bikeImages: true, bikeCategory: true})
-    return this.repo.findAllBikes(listBikeQuery);
+    const listBikeQuery = queryBuilder.listBike({bikeAdress: true, bikeImages: true, subcategory: true})
+
+    const bikes = await this.repo.findAllBikes(listBikeQuery);
+    return bikes.map((bike: any) => {
+      return {
+        ...bike,
+        category: bike.subcategory.category,
+      };
+    });
   }
 
   async getBikeById(payload: any) {
