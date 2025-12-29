@@ -28,37 +28,36 @@ export function validateSignup(req: Request, res: Response, next: NextFunction) 
   } else if (lastName.length > 50) {
     errors.push({ field: 'lastName', message: 'Last name must be less than 50 characters' });
   }
-
   // Password validation
   if (!password) {
     errors.push({ field: 'password', message: 'Password is required' });
-  } else if (password.length < 8) {
-    errors.push({ field: 'password', message: 'Password must be at least 8 characters long' });
+  } else if (password.length < 6) {
+    errors.push({ field: 'password', message: 'Password must be at least 6 characters long' });
   } else if (password.length > 128) {
     errors.push({ field: 'password', message: 'Password must be less than 128 characters' });
-  } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-    errors.push({
-      field: 'password',
-      message: 'Password must include uppercase, lowercase, and numeric characters',
-    });
-  }
+  } 
 
   // Optional phone number validation
   if (phone) {
     const trimmedPhone = String(phone).replace(/\s+/g, '');
     const phoneRegex = /^\+?[1-9]\d{1,14}$/; // Align with frontend E.164 style validation
 
-    if (!phoneRegex.test(trimmedPhone)) {
-      errors.push({ field: 'phone', message: 'Invalid phone number format' });
-    }
+    // if (!phoneRegex.test(trimmedPhone)) {
+    //   errors.push({ field: 'phone', message: 'Invalid phone number format' });
+    // }
   } else {
     errors.push({ field: 'phone', message: 'Phone number is required' });
   }
 
   const allowedRoles = ['RENTER', 'OWNER', 'ADMIN'];
+  const roleUpperCase = role.toString().trim().toUpperCase();
+  console.log({roleUpperCase});
+  const isAllowedRole = allowedRoles.includes(roleUpperCase);
+  console.log({role});
+  console.log({isAllowedRole});
   if (!role) {
     errors.push({ field: 'role', message: 'Role is required' });
-  } else if (!allowedRoles.includes(role.toString().trim().toUpperCase())) {
+  } else if (!isAllowedRole) {
     errors.push({ field: 'role', message: 'Invalid role selected' });
   }
 
