@@ -96,8 +96,6 @@ model Subcategory {
   parentId    Int?
   categoryId  Int
   category    Category      @relation(fields: [categoryId], references: [id])
-  parent      Subcategory?  @relation("SubcategoryHierarchy", fields: [parentId], references: [id])
-  children    Subcategory[] @relation("SubcategoryHierarchy")
   isActive    Boolean       @default(true)
   description String?
 }
