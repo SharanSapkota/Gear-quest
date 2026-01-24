@@ -126,9 +126,6 @@ export async function login(payload: { email: string; password: string }) {
   try {
     const allUsers = await userRepo.findAllUsers();
     const user = await userRepo.findUserByEmail(payload.email);
-    console.log('allUsers', allUsers);
-    console.log('user', user);
-    console.log('payload', payload);
     if (!user) {
       throw new Error('invalid_credentials');
     }
