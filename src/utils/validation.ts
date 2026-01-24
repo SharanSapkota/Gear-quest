@@ -29,8 +29,6 @@ export function validateSignup(req: Request, res: Response, next: NextFunction) 
   } else if (lastName.length > 50) {
     errors.push({ field: 'lastName', message: 'Last name must be less than 50 characters' });
   }
-  console.log('------', phone)
-  console.log('------', phone.length)
   // Password validation
   if (!password) {
     errors.push({ field: 'password', message: 'Password is required' });
