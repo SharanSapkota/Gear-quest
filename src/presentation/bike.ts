@@ -6,6 +6,10 @@ export const bikePresenter = (bike: any) => {
   return {
     id: bike?.id,
     name: bike?.name,
+    category: bike.category,
+    subCategory: bike.subcategory,
+    categoryId: bike.category.id,
+    subCategoryId: bike.subcategory.id,
     location: {
         lat: bike?.bikeAddress?.[0]?.latitude,
         lng: bike?.bikeAddress?.[0]?.longitude,
@@ -27,10 +31,6 @@ export const bikePresenter = (bike: any) => {
     startTime: formatDate(bike?.startTime),
     endTime: formatDate(bike?.endTime),
     bookings: bookingPresenter(bike?.bookings),
-    category: {
-      id: bike?.category?.id,
-      name: bike?.category?.name,
-    },
     images: bike?.bikeImages?.map((image: any) => {
       return {
         id: image?.id,
