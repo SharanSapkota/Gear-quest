@@ -6,9 +6,9 @@ export const bikePresenter = (bike: any) => {
   return {
     id: bike?.id,
     name: bike?.name,
-    category: bike.category,
+    category: bike.category ? bike.category : bike.subcategory?.category,
     subCategory: bike.subcategory,
-    categoryId: bike.category.id,
+    categoryId: bike?.category?.id || bike?.subCategory?.category?.id ,
     subCategoryId: bike.subcategory.id,
     location: {
         lat: bike?.bikeAddress?.[0]?.latitude,
