@@ -11,7 +11,7 @@ export function findBookingById(id: number) {
 }
 
 export function findMyBookings(userId: number) {
-  return prisma.booking.findMany({ where: { userId, status: { notIn: EXCLUDE_BOOKING_STATUS  as BookingStatus[] } }, include: { user: true, bike: { include: { bikeAddress: true } }, owner: true } });
+  return prisma.booking.findMany({ where: { userId, status: { notIn: EXCLUDE_BOOKING_STATUS  as BookingStatus[] } }, include: { user: true, bike: { include: { bikeAddress: true, subcategory: { include: {category: true}} } }, owner: true } });
 }
 
 export function findBookingsByBikeId(bikeId: number, userId: number) {
