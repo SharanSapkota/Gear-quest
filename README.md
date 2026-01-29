@@ -1,8 +1,4 @@
 # GearQuest Backend
-![LOGIN PAGE](media/1.png)
-![Renters view](media/2.png)
-![Request view](media/3.png)
-
 
 Express + Prisma + PostgreSQL backend for bike rentals.
 
