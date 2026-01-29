@@ -37,7 +37,7 @@ export class BikeService {
     const builder = new ListBikeQueryBuilder(payload.bikeId)
     .addRelation('bikeAddress')
     .addRelation('bikeImages')
-    .addRelation('category')
+    .addRelation('subcategory')
     .addRelation('owner', {
       select: {
         id: true,
