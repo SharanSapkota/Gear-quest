@@ -94,6 +94,8 @@ export async function create(req: Request, res: Response) {
       categoryName: req.body.category || req.body.categoryName,
       bikeImages: files.map((file) => ({ imageUrl: normaliseImagePath(file.filename) })),
       autoAccept: req.body.autoAccept || false,
+      subcategoryId: req.body.subCategoryId ? Number(req.body.subCategoryId) : null,
+      categoryId: req.body.categoryId,
       address: {
         address: addressRaw?.formatted || req.body.location || req.body.addressLine || '',
         street: req.body.street || addressRaw?.street || addressRaw?.formatted || req.body.location || '',
