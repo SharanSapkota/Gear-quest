@@ -22,8 +22,8 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/Bike'
  */
-router.get('/', rateLimitMiddleware, authenticate, bikeController.list);
-router.get('/:id', rateLimitMiddleware, authenticate, bikeController.get);
+router.get('/', rateLimitMiddleware, bikeController.list);
+router.get('/:id', rateLimitMiddleware, bikeController.get);
 /**
  * @openapi
  * /api/bikes:
